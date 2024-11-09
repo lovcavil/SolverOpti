@@ -18,7 +18,7 @@ class MyProblem(ea.Problem):  # 继承Problem父类
         # lb = [-1] * (Dim - 1) + [-5]
         # ub = [1] * (Dim - 1) + [-2]  
         lb = [0,0] + [-3]
-        ub = [1,1] + [-2]  
+        ub = [1,1] + [-3]  
         lbin = [1] * Dim  # 所有变量的下界都包含
         ubin = [1] * Dim  # 所有变量的上界都包含
         # 调用父类构造方法完成实例化
@@ -84,16 +84,16 @@ def main():
 # 实例化问题对象
     ode_problem = MyProblem()
     # 构建算法
-    algorithm0 = ea.moea_NSGA2_templet(ode_problem,
-                                        ea.Population(Encoding='RI', NIND=50),
-                                        MAXGEN=200,  # 最大进化代数
-                                        logTras=0)  # 表示每隔多少代记录一次日志信息，0表示不记录。
+    # algorithm0 = ea.moea_NSGA2_templet(ode_problem,
+    #                                     ea.Population(Encoding='RI', NIND=50),
+    #                                     MAXGEN=200,  # 最大进化代数
+    #                                     logTras=0)  # 表示每隔多少代记录一次日志信息，0表示不记录。
     algorithm = ea.moea_NSGA2_templet(ode_problem,
                                         ea.Population(Encoding='RI', NIND=50),
                                         MAXGEN=50,  # 最大进化代数
                                         logTras=0)  # 表示每隔多少代记录一次日志信息，0表示不记录。
     # 求解
-    res = ea.optimize(algorithm, seed=1, verbose=False, drawing=1, outputMsg=True, drawLog=False, saveFlag=True, dirName='result')
+    res = ea.optimize(algorithm, seed=1, verbose=False, drawing=1, outputMsg=True, drawLog=False, saveFlag=True, dirName='result1')
 if __name__ == '__main__':
     multiprocessing.freeze_support()
     main()
