@@ -1,35 +1,42 @@
-
 import multiprocessing
+import time
 
-def long_running_function(queue,target_function,ode, coeffs, tol,end_time):
-    #print("Starting long-running task...")
+def long_running_function(queue, target_function, ode, coeffs, tol, end_time):
     try:
-        #result = run_case(ode, coeffs, tol,end_time)
-        h=tol
-        result = target_function(ode, coeffs, h,end_time)
-        
+        h = tol
+        result = target_function(ode, coeffs, h, end_time)
     except KeyboardInterrupt:
         print("Task was interrupted")
         queue.put("Task interrupted")
         return
     queue.put(result)
-#def call_with_timeout(func, timeout):
-def run_case_with_timeout(ode, coeffs, tol,end_time=5, timeout=5):
 
+def run_case_with_timeout(target_function, ode, coeffs, tol, end_time=5, timeout=5):
     # Create a Queue to receive the function's return value
     queue = multiprocessing.Queue()
-
+    
+    # Start timing
+    start_time = time.time()
+    
     # Create and start a process that runs the function
-    proc = multiprocessing.Process(target=long_running_function, args=(queue,ode, coeffs, tol,end_time))
+    proc = multiprocessing.Process(target=long_running_function, args=(queue, target_function, ode, coeffs, tol, end_time))
     proc.start()
-    proc.join(timeout=timeout)
 
-    if proc.is_alive():
-        proc.terminate()  # Forcefully terminate the process
+    # Wait for result from queue with a specified timeout
+    try:
+        result = queue.get(timeout=timeout)  # Attempt to get result within timeout period
+        elapsed_time = time.time() - start_time
+        print(f"Elapsed Time: {elapsed_time} seconds")
+        return result
+    except multiprocessing.queues.Empty:
+        # If we exceed the timeout waiting for a result, we terminate the process
+        proc.terminate()
         proc.join()
-        return "Function execution exceeded the time limit of {} seconds.".format(timeout)
-    else:
-        # Retrieve the return value from the queue
-        res=queue.get()
-        print(res)
-        return res
+        print(f"Function execution exceeded the time limit of {timeout} seconds.")
+        return f"Function execution exceeded the time limit of {timeout} seconds."
+    finally:
+        # Ensure process is cleaned up after result retrieval or timeout
+        proc.join()
+
+# Example usage (replace target_function, ode, coeffs, and tol with real values)
+# result = run_case_with_timeout(target_function, ode, coeffs, tol, end_time=5, timeout=5)

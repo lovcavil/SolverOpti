@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.interpolate import interp1d
-import p2.ode_solver_varh as ode_solver_varh
+import ode_solver_varh as ode_solver_varh
 import time
 
 
@@ -15,7 +15,7 @@ def run_case_varh(ode, coeffs, tol,end_time=5,true_solution_filename="lorenz_sol
     h = 0.00001
     
     # Solve the ODE and get the times, solutions (ys), and function call count
-    times, ys, errors, total_function_calls = ode_solver_varh.solve_ode(ode, t_span, y0, coeffs, h, tol)
+    times, ys, errors, total_function_calls = ode_solver_varh.solve_ode_varh(ode, t_span, y0, coeffs, h, tol)
     interpolators = {}
     df_true = pd.read_csv(true_solution_filename)
     for column in df_true.columns[1:]:  # Skip the first column assuming it's the time column
