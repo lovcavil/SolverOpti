@@ -1,0 +1,21 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load data from file
+data = pd.read_csv('lorenz_solution.csv')  # replace 'your_file.csv' with the path to your data file
+
+# Plot each variable over time
+plt.figure()
+plt.plot(data['t'], data['x'], label='x')
+plt.plot(data['t'], data['y'], label='y')
+plt.plot(data['t'], data['z'], label='z')
+
+# Customize the plot
+plt.xlabel('Time (t)')
+plt.ylabel('Values')
+plt.title('Plot of x, y, z over Time')
+plt.legend()
+plt.grid()
+
+# Display the plot
+plt.show()

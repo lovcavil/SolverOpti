@@ -1,0 +1,9 @@
+Complexity,Loss,Equation
+1,19.984375,"x_1"
+3,14.359375,"concat(x_1, x_2)"
+5,11.3046875,"concat(concat(x_1, xabc), x_2)"
+7,10.7578125,"zip(concat(concat(x_1, abc), x_2), x_4)"
+8,8.4296875,"zip(concat(x_1, concat(abc, x_2)), tail(x_3))"
+9,7.5,"concat(zip(x_1, concat(tail(x_3), reverse(x_4))), x_2)"
+11,3.0,"zip(concat(x_1, concat(abc, x_2)), concat(tail(x_3), reverse(x_4)))"
+13,0.0,"zip(concat(x_1, concat(abc, x_2)), concat(tail(x_3), concat(reverse(x_4), xyz)))"
