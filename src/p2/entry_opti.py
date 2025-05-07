@@ -8,14 +8,15 @@ class MyProblem(ea.Problem):  # 继承Problem父类
         name = 'MyProblem'  # 初始化name（函数名称，可以随意设置）
         M = 2  # 优化目标个数
         maxormins = [1] * M  # 初始化maxormins（目标最小最大化标记列表，1：最小化该目标；-1：最大化该目标）
-        Dim = 34  # 初始化Dim（决策变量维数）
-
+        Dim = 7  # 初始化Dim（决策变量维数）
+        Dim = 3  # 初始化Dim（决策变量维数）
         # 初始化varTypes（决策变量的类型，0：实数；1：整数）
         varTypes = [0] * Dim
 
         # 设置决策变量的上下界，除最后一个外都是-10到10，最后一个是-10到-1
-        lb = [-10] * Dim
-        ub = [10] * (Dim - 1) + [-1]  # 最后一个上界是-1
+        lb = [-2] * Dim
+        #ub = [10] * (Dim - 1) + [-1]  # 最后一个上界是-1
+        ub = [2] * (Dim) 
         lbin = [1] * Dim  # 所有变量的下界都包含
         ubin = [1] * Dim  # 所有变量的上界都包含
         # 调用父类构造方法完成实例化
@@ -80,8 +81,8 @@ def main():
                                         MAXGEN=200,  # 最大进化代数
                                         logTras=0)  # 表示每隔多少代记录一次日志信息，0表示不记录。
     algorithm = ea.moea_NSGA2_templet(ode_problem,
-                                        ea.Population(Encoding='RI', NIND=5),
-                                        MAXGEN=5,  # 最大进化代数
+                                        ea.Population(Encoding='RI', NIND=50),
+                                        MAXGEN=50,  # 最大进化代数
                                         logTras=0)  # 表示每隔多少代记录一次日志信息，0表示不记录。
     # 求解
     res = ea.optimize(algorithm, seed=1, verbose=False, drawing=1, outputMsg=True, drawLog=False, saveFlag=True, dirName='result')

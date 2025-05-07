@@ -26,3 +26,11 @@ def ode_lorenz_system(t, y_, sigma=10, rho=28, beta=8/3):
 
     return np.array([dxdt, dydt, dzdt])
 
+def ode_lorenz_system2(t, y_, sigma=20, rho=38, beta=8/3):
+
+    x, y, z = y_  # Unpack the array of dependent variables
+    dxdt = sigma * (y - x)     # Compute the derivative of x
+    dydt = x * (rho - z) - y   # Compute the derivative of y
+    dzdt = x * y - beta * z    # Compute the derivative of z
+
+    return np.array([dxdt, dydt, dzdt])

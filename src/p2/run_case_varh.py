@@ -25,7 +25,8 @@ def run_case_varh(ode, coeffs, tol,end_time=5,true_solution_filename="lorenz_sol
     true_ys = np.array([interpolators[col](times) for col in interpolators]).T
 
     rmse = np.sqrt(np.mean((ys - true_ys)**2))
-    
+    difference = [y - true_y for y, true_y in zip(ys, true_ys)]
+    max_diff = np.max(np.abs(difference))
     # Make sure errors array starts with an initial value (e.g., 0) to match times[0]
     if len(errors) < len(times):
         # Prepend an initial error or adjust the array as needed
@@ -51,6 +52,8 @@ def run_case_varh(ode, coeffs, tol,end_time=5,true_solution_filename="lorenz_sol
             "true_ys": true_ys,
             "errors": interpolated_errors,
             "total_function_calls": total_function_calls,
-            "rmse": rmse
+            "rmse": rmse,
+            "difference":difference,
+            "max_diff":max_diff
         }
     
